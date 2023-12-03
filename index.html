@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Link put</title>
     <style>
-        *{
+        * {
             margin: 0px;
             padding: 0px;
             box-sizing: border-box;
         }
 
-        body{
+        body {
             background-color: purple;
             font-family: arial;
         }
 
-        .form{
+        .form {
             width: 80vw;
             display: flex;
             align-items: center;
@@ -31,12 +32,12 @@
             margin: 10px auto;
         }
 
-        h1{
+        h1 {
             font-size: 30px;
             text-align: center;
         }
 
-        input{
+        input {
             width: calc(100% - 20px);
             padding: 10px;
             border-radius: 7px;
@@ -46,7 +47,7 @@
             outline: none;
         }
 
-        .submit{
+        .submit {
             width: 50%;
             padding: 10px;
             font-size: 20px;
@@ -59,39 +60,61 @@
             cursor: pointer;
         }
 
-        #video-section{
+        #video-section {
             display: flex;
             justify-content: center;
-            flex-wrap:wrap;
+            flex-wrap: wrap;
             gap: 10px;
+        }
+
+        .video-container {
+            position: relative;
+        }
+
+        .video-container button {
+            padding: 3px;
+            font-weight: bold;
+            font-size: 20px;
+            background: red;
+            color: white;
+            border: none;
+            outline: none;
+            position: absolute;
+            right: 0px;
         }
     </style>
 </head>
+
 <body>
     <div class="form">
         <h1>Put your link here</h1>
         <input type="text" placeholder="Enter your link" id="link">
-        <input  class="submit" type="submit" value="Add new video" onclick="submit()">
+        <input class="submit" type="submit" value="Add new video" onclick="submit()">
     </div>
 
     <section id="video-section">
-        <div class="video-container"></div>
     </section>
     <script>
-        let id = sessionStorage.length;
-        let lastIndex = sessionStorage.length - 1;
-        function submit(){
-            id++;
+        let videoSection = document.querySelector("#video-section");
+        function submit() {
             let link = document.querySelector("#link").value;
-            let setLocalStore = sessionStorage.setItem(id, link);
-            let videoContainer = document.querySelector(".video-container");
+            let linkDecord = link.slice(32, link.length);
+            let videoContainer = document.createElement("div");
+            videoContainer.classList.add("video-container");
+            videoSection.appendChild(videoContainer);
+
             let video = document.createElement("iframe");
             videoContainer.appendChild(video);
             video.setAttribute("frameborder", "0");
-            video.src = sessionStorage.getItem(sessionStorage.length-1);
+            video.src = `https://youtube.com/embed/${linkDecord}`;
+
+            let removeVideo = document.createElement("button");
+            removeVideo.innerHTML = "X";
+            videoContainer.appendChild(removeVideo);
+            removeVideo.addEventListener("click", function () {
+                removeVideo.parentElement.remove();
+            });
         }
-
-
     </script>
 </body>
 </html>
