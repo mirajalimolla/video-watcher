@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,7 +47,7 @@
         }
 
         .submit {
-            width: 50%;
+            width: 70%;
             padding: 10px;
             font-size: 20px;
             font-weight: bold;
@@ -84,12 +83,11 @@
         }
     </style>
 </head>
-
 <body>
     <div class="form">
         <h1>Put your link here</h1>
         <input type="text" placeholder="Enter your link" id="link">
-        <input class="submit" type="submit" value="Add new video" onclick="submit()">
+        <input class="submit" type="submit" value="Add video" onclick="submit()">
     </div>
 
     <section id="video-section">
@@ -98,7 +96,9 @@
         let videoSection = document.querySelector("#video-section");
         function submit() {
             let link = document.querySelector("#link").value;
-            let linkDecord = link.slice(32, link.length);
+            let linkDecord = link.slice(32);
+            let shareLinkDecode = link.slice(17, 28);
+            let liveLinkDecode = link.slice(29, 40);
             let videoContainer = document.createElement("div");
             videoContainer.classList.add("video-container");
             videoSection.appendChild(videoContainer);
@@ -106,7 +106,14 @@
             let video = document.createElement("iframe");
             videoContainer.appendChild(video);
             video.setAttribute("frameborder", "0");
-            video.src = `https://youtube.com/embed/${linkDecord}`;
+
+            if (link.includes("youtube.com/watch")) {
+                video.src = `https://youtube.com/embed/${linkDecord}`;
+            } else if (link.includes("youtube.com/live")) {
+                video.src = `https://youtube.com/embed/${liveLinkDecode}`;
+            } else {
+                video.src = `https://youtube.com/embed/${shareLinkDecode}`;
+            }
 
             let removeVideo = document.createElement("button");
             removeVideo.innerHTML = "X";
